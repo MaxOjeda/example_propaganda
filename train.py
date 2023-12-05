@@ -10,6 +10,7 @@ from pytorch_pretrained_bert.optimization import BertAdam, warmup_linear
 from data_load import PropDataset, pad, VOCAB, tokenizer, tag2idx, idx2tag, num_task, masking
 import time
 from early_stopping import EarlyStopping
+import pickle
 
 timestr = time.strftime("%Y%m%d-%H%M%S")
 
@@ -220,6 +221,15 @@ if __name__=="__main__":
     train_dataset = PropDataset(hp.trainset, False)
     eval_dataset = PropDataset(hp.validset, True)
     test_dataset = PropDataset(hp.testset, True)
+
+    with open('train_propaganda.pkl', 'wb') as file: 
+        pickle.dump(train_dataset, file)
+    
+    with open('eval_propaganda.pkl', 'wb') as file2: 
+        pickle.dump(eval_dataset, file2) 
+    
+    with open('test_propaganda.pkl', 'wb') as file3: 
+        pickle.dump(test_dataset, file3) 
 
     train_iter = data.DataLoader(dataset=train_dataset,
                                  batch_size=hp.batch_size,
